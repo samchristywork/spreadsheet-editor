@@ -142,6 +142,58 @@ func keyPressed(a byte, b byte, c byte, bytes []byte) bool {
 	return bytes[0] == a && bytes[1] == b && bytes[2] == c
 }
 
+func isPrintable(bytes []byte) bool {
+	return bytes[0] >= 32 && bytes[0] <= 126
+}
+
+func editCell(t *term.Term) *string {
+	width, _ := screenDimensions()
+
+	x := 1
+	entry := ""
+
+	for {
+		setCursorPosition(1, 2)
+		fmt.Printf("%s", fixedWidth(entry, width))
+
+		setCursorPosition(x, 2)
+		makeCursorVisible()
+		bytes[0] = 0
+		bytes[1] = 0
+		bytes[2] = 0
+		_, err := t.Read(bytes)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Read error: %v\n", err)
+			break
+		}
+		makeCursorInvisible()
+
+		if keyPressed(27, 0, 0, bytes) { // Escape
+			entry = ""
+			break
+		} else if keyPressed(21, 0, 0, bytes) { // Ctrl-u
+			entry = ""
+			x = 1
+		} else if keyPressed(127, 0, 0, bytes) { // Backspace
+			if x > 1 {
+				entry = entry[:len(entry)-1]
+				x--
+			}
+		} else if keyPressed(13, 0, 0, bytes) { // Enter
+			break
+		} else if isPrintable(bytes) {
+			x++
+			entry += string(bytes[0])
+		}
+	}
+
+	setCursorPosition(1, 2)
+	fmt.Printf("%s", fixedWidth("", width))
+
+	return &entry
+}
+
+
 func main() {
 	t, err := term.Open("/dev/tty")
 	if err != nil {
@@ -193,6 +245,14 @@ func main() {
 			currentCell[0] -= 5
 		} else if keyPressed(byte('L'), 0, 0, bytes) {
 			currentCell[1] += 5
+		} else if keyPressed(13, 0, 0, bytes) { // Enter
+			content := editCell(t)
+			if content != nil {
+				if contentMap[currentCell[0]] == nil {
+					contentMap[currentCell[0]] = make(map[int]string)
+				}
+				contentMap[currentCell[0]][currentCell[1]] = *content
+			}
 		}
 	}
 
