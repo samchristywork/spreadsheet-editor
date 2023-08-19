@@ -146,11 +146,25 @@ func isPrintable(bytes []byte) bool {
 	return bytes[0] >= 32 && bytes[0] <= 126
 }
 
+func getCellContent(row int, column int) *string {
+	if contentMap[row] == nil {
+		return nil
+	}
+
+	content := contentMap[row][column]
+	return &content
+}
+
 func editCell(t *term.Term) *string {
 	width, _ := screenDimensions()
 
-	x := 1
 	entry := ""
+	entryReference := getCellContent(currentCell[0], currentCell[1])
+	if entryReference != nil {
+		entry = *entryReference
+	}
+
+	x := len(entry) + 1
 
 	for {
 		setCursorPosition(1, 2)
