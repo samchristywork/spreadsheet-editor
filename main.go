@@ -185,19 +185,27 @@ func editCell(t *term.Term) *string {
 		if keyPressed(27, 0, 0, bytes) { // Escape
 			entry = ""
 			break
+		} else if keyPressed(27, 91, 68, bytes) { // Left
+			if x > 1 {
+				x--
+			}
+		} else if keyPressed(27, 91, 67, bytes) { // Right
+			if x < len(entry)+1 {
+				x++
+			}
 		} else if keyPressed(21, 0, 0, bytes) { // Ctrl-u
 			entry = ""
 			x = 1
 		} else if keyPressed(127, 0, 0, bytes) { // Backspace
 			if x > 1 {
-				entry = entry[:len(entry)-1]
+				entry = entry[:x-2] + entry[x-1:]
 				x--
 			}
 		} else if keyPressed(13, 0, 0, bytes) { // Enter
 			break
 		} else if isPrintable(bytes) {
+			entry = entry[:x-1] + string(bytes[0]) + entry[x-1:]
 			x++
-			entry += string(bytes[0])
 		}
 	}
 
