@@ -10,6 +10,8 @@ import (
 var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 var bytes []byte
 
+var contentMap = map[int]map[int]string{}
+var currentCell = []int{0, 0}
 var frame = 0
 
 func alternateScreen() {
@@ -76,12 +78,50 @@ func renderHeadings(x int, y int) {
 	}
 }
 
+func renderCell(row int, column int, width int) {
+	content := contentMap[row][column]
+	if row == currentCell[0] && column == currentCell[1] {
+		fmt.Printf("\033[7m")
+		fmt.Printf("%s", fixedWidth(content, width))
+		fmt.Printf("\033[0m")
+	} else {
+		fmt.Printf("%s", fixedWidth(content, width))
+	}
+}
+
+func renderRow(row int, width int) {
+	xoff := 4
+	for column := 0; xoff < width; column++ {
+		setCursorPosition(xoff, row+4)
+
+		columnWidth := getColumnWidth(column)
+
+		if xoff+columnWidth > width {
+			columnWidth := width - xoff
+			renderCell(row, column, columnWidth)
+		} else {
+			renderCell(row, column, columnWidth)
+		}
+
+		xoff += columnWidth
+	}
+}
+
+func renderGrid() {
+	width, height := screenDimensions()
+
+	for i := 0; i < height-4; i++ {
+		renderRow(i, width)
+	}
+}
+
 func render() {
 	setCursorPosition(1, 1)
 	fmt.Printf("Hello, World!\n")
 	frame++
 
 	renderHeadings(1, 3)
+	renderGrid()
 }
 
 func setCursorPosition(x, y int) {
