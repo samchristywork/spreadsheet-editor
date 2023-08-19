@@ -39,6 +39,17 @@ func getColumnName(column int) string {
 }
 
 func fixedWidth(s string, width int) string {
+	if len(s) > width {
+		if width < 1 {
+			return ""
+		}
+		return s[0:width-1] + "…"
+	}
+
+	for len(s) < width {
+		s += " "
+	}
+
 	return s
 }
 
