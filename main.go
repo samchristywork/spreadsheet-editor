@@ -58,6 +58,7 @@ func fixedWidth(s string, width int) string {
 func renderHeadings(x int, y int) {
 	width, height := screenDimensions()
 
+	// Render top headings
 	xoff := 3
 	for i := 0; xoff < width; i++ {
 		setCursorPosition(x+xoff, y)
@@ -70,6 +71,7 @@ func renderHeadings(x int, y int) {
 		xoff += columnWidth
 	}
 
+	// Render left headings
 	for i := 0; i < height; i++ {
 		setCursorPosition(x, y+i+1)
 		fmt.Printf("\033[7m")
@@ -167,6 +169,30 @@ func main() {
 
 		if keyPressed(27, 0, 0, bytes) { // Escape
 			break
+		} else if keyPressed(27, 91, 65, bytes) { // Up
+			currentCell[0]--
+		} else if keyPressed(27, 91, 66, bytes) { // Down
+			currentCell[0]++
+		} else if keyPressed(27, 91, 67, bytes) { // Right
+			currentCell[1]++
+		} else if keyPressed(27, 91, 68, bytes) { // Left
+			currentCell[1]--
+		} else if keyPressed(byte('h'), 0, 0, bytes) {
+			currentCell[1]--
+		} else if keyPressed(byte('j'), 0, 0, bytes) {
+			currentCell[0]++
+		} else if keyPressed(byte('k'), 0, 0, bytes) {
+			currentCell[0]--
+		} else if keyPressed(byte('l'), 0, 0, bytes) {
+			currentCell[1]++
+		} else if keyPressed(byte('H'), 0, 0, bytes) {
+			currentCell[1] -= 5
+		} else if keyPressed(byte('J'), 0, 0, bytes) {
+			currentCell[0] += 5
+		} else if keyPressed(byte('K'), 0, 0, bytes) {
+			currentCell[0] -= 5
+		} else if keyPressed(byte('L'), 0, 0, bytes) {
+			currentCell[1] += 5
 		}
 	}
 
