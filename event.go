@@ -21,6 +21,53 @@ func nextKeyPress() ([]byte, error) {
 	}
 
 	return bytes, nil
+}
+
+func handleClipboard(bytes []byte) bool {
+	if keyPressed(byte('y'), 0, 0, bytes) {
+		bytes, err := nextKeyPress()
+		if err != nil {
+			return true
+		}
+
+		if keyPressed(byte('y'), 0, 0, bytes) {
+			copyCell()
+			return true
+		}
+	} else if keyPressed(byte('p'), 0, 0, bytes) {
+		pasteCell()
+		return true
+	}
+
+	return false
+}
+
+func handleMovement(bytes []byte) bool {
+	if keyPressed(27, 91, 65, bytes) { // Up
+		scrollOffset[1]--
+	} else if keyPressed(27, 91, 66, bytes) { // Down
+		scrollOffset[1]++
+	} else if keyPressed(27, 91, 67, bytes) { // Right
+		scrollOffset[0]++
+	} else if keyPressed(27, 91, 68, bytes) { // Left
+		scrollOffset[0]--
+	} else if keyPressed(byte('h'), 0, 0, bytes) {
+		currentCell[1]--
+	} else if keyPressed(byte('j'), 0, 0, bytes) {
+		currentCell[0]++
+	} else if keyPressed(byte('k'), 0, 0, bytes) {
+		currentCell[0]--
+	} else if keyPressed(byte('l'), 0, 0, bytes) {
+		currentCell[1]++
+	} else if keyPressed(byte('H'), 0, 0, bytes) {
+		currentCell[1] -= 5
+	} else if keyPressed(byte('J'), 0, 0, bytes) {
+		currentCell[0] += 5
+	} else if keyPressed(byte('K'), 0, 0, bytes) {
+		currentCell[0] -= 5
+	} else if keyPressed(byte('L'), 0, 0, bytes) {
+		currentCell[1] += 5
+	} else {
 		return false
 	}
 

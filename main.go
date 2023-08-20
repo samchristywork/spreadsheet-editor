@@ -1,73 +1,28 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"github.com/pkg/term"
 	"os"
 	"strconv"
-	"strings"
 )
 
-var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-var bytes []byte
+var cellColorMap = map[int]map[int][]int{}
 var clipboard string
 var columnWidthMap = map[int]int{}
 var contentMap = map[int]map[int]string{}
-var cellColorMap = map[int]map[int][]int{}
 var currentCell = []int{0, 0}
 var frame = 0
+var modified = false
 var scrollOffset = []int{0, 0}
 var showGrid = false
 
-func handleMovement() bool {
-	if keyPressed(27, 91, 65, bytes) { // Up
-		scrollOffset[1]--
-	} else if keyPressed(27, 91, 66, bytes) { // Down
-		scrollOffset[1]++
-	} else if keyPressed(27, 91, 67, bytes) { // Right
-		scrollOffset[0]++
-	} else if keyPressed(27, 91, 68, bytes) { // Left
-		scrollOffset[0]--
-	} else if keyPressed(byte('h'), 0, 0, bytes) {
-		currentCell[1]--
-	} else if keyPressed(byte('j'), 0, 0, bytes) {
-		currentCell[0]++
-	} else if keyPressed(byte('k'), 0, 0, bytes) {
-		currentCell[0]--
-	} else if keyPressed(byte('l'), 0, 0, bytes) {
-		currentCell[1]++
-	} else if keyPressed(byte('H'), 0, 0, bytes) {
-		currentCell[1] -= 5
-	} else if keyPressed(byte('J'), 0, 0, bytes) {
-		currentCell[0] += 5
-	} else if keyPressed(byte('K'), 0, 0, bytes) {
-		currentCell[0] -= 5
-	} else if keyPressed(byte('L'), 0, 0, bytes) {
-		currentCell[1] += 5
+func quit() bool {
+	if modified {
+		return promptBox("Unsaved changes.", "Really quit? (y/n)")
 	} else {
-		return false
-	}
-
-	return true
-}
-
-func handleClipboard() bool {
-	if keyPressed(byte('y'), 0, 0, bytes) {
-		if !nextKeyPress() {
-			return true
-		}
-
-		if keyPressed(byte('y'), 0, 0, bytes) {
-			copyCell()
-			return true
-		}
-	} else if keyPressed(byte('p'), 0, 0, bytes) {
-		pasteCell()
 		return true
 	}
-
-	return false
 }
 
 func main() {
@@ -76,31 +31,7 @@ func main() {
 		return
 	}
 
-	filename := os.Args[1]
-	file, err := os.Open(filename)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error opening file: %v\n", err)
-		return
-	}
-	defer file.Close()
-
-	lineNumber := 0
-	reader := bufio.NewReader(file)
-	for {
-		line, err := reader.ReadString('\n')
-		if err != nil {
-			break
-		}
-
-		line = strings.TrimSuffix(line, "\n")
-
-		segments := strings.Split(line, ",")
-		for i := 0; i < len(segments); i++ {
-			setCellContent(lineNumber, i, segments[i])
-		}
-
-		lineNumber++
-	}
+	loadFile()
 
 	t, err := term.Open("/dev/tty")
 	if err != nil {
