@@ -72,10 +72,45 @@ func main() {
 		}
 
 		if keyPressed(27, 0, 0, bytes) { // Escape
-			break
+			if quit() {
+				break
+			}
 		} else if keyPressed(byte('q'), 0, 0, bytes) {
-			break
+			if quit() {
+				break
+			}
+		} else if keyPressed(59, 50, 65, bytes) { // Up
+			content, _ := getCellContent(currentCell[0], currentCell[1])
+			setCellContent(currentCell[0]-1, currentCell[1], content)
+			currentCell[0]--
+		} else if keyPressed(59, 50, 66, bytes) { // Down
+			content, _ := getCellContent(currentCell[0], currentCell[1])
+			setCellContent(currentCell[0]+1, currentCell[1], content)
+			currentCell[0]++
+		} else if keyPressed(59, 50, 67, bytes) { // Right
+			content, _ := getCellContent(currentCell[0], currentCell[1])
+			setCellContent(currentCell[0], currentCell[1]+1, content)
+			currentCell[1]++
+		} else if keyPressed(59, 50, 68, bytes) { // Left
+			content, _ := getCellContent(currentCell[0], currentCell[1])
+			setCellContent(currentCell[0], currentCell[1]-1, content)
+			currentCell[1]--
+		} else if keyPressed(byte('e'), 0, 0, bytes) {
+			if modified {
+				messageBox("Unsaved changes", "Cannot edit the file unless it is saved.")
+				nextKeyPress()
+				continue
+			}
+			normalScreen()
+			t.Restore()
+			editFile()
+
+			alternateScreen()
+			makeCursorInvisible()
+			t.SetRaw()
+			loadFile()
 		} else if keyPressed(byte('s'), 0, 0, bytes) {
+			filename := os.Args[1]
 			save(filename)
 		} else if keyPressed(1, 0, 0, bytes) { // Ctrl-A
 			content, _ := getCellContent(currentCell[0], currentCell[1])
@@ -118,6 +153,8 @@ func main() {
 			showGrid = !showGrid
 		} else if keyPressed(byte('x'), 0, 0, bytes) {
 			delete(contentMap[currentCell[0]], currentCell[1])
+		} else if keyPressed(byte('+'), 0, 0, bytes) {
+			columnWidthMap = make(map[int]int)
 		} else if keyPressed(byte('='), 0, 0, bytes) {
 			// TODO: Doesn't work with scroll
 			equalizeColumns()
@@ -126,6 +163,7 @@ func main() {
 			if content != nil {
 				setCellContent(currentCell[0], currentCell[1], *content)
 				currentCell[0]++
+				modified = true
 			}
 		}
 	}

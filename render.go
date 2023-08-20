@@ -39,7 +39,7 @@ func renderHeadings(x int, y int) {
 func renderStatusLine(bytes []byte) {
 	width, height := screenDimensions()
 
-	content := fmt.Sprintf("Keypress: %d %d %d, Frame: %d, Position: %d %d", bytes[0], bytes[1], bytes[2], frame, currentCell[0], currentCell[1])
+	content := fmt.Sprintf("Keypress: %d %d %d, Frame: %d, Position: %d %d, Modified: %v", bytes[0], bytes[1], bytes[2], frame, currentCell[0], currentCell[1], modified)
 
 	setCursorPosition(1, height)
 	color(100, 100, 200)
@@ -83,6 +83,9 @@ func renderCell(row int, column int, width int) {
 		color(100, 100, 100)
 		fmt.Printf("%s", fixedWidth("-----", width))
 	} else {
+		if evaluated {
+			color(100, 200, 100)
+		}
 		if showGrid {
 			if (row+column)%2 == 0 {
 				invert()

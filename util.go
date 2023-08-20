@@ -1,5 +1,10 @@
 package main
 
+import (
+	"strconv"
+	"strings"
+)
+
 func max(a int, b int) int {
 	if a > b {
 		return a
@@ -38,6 +43,7 @@ func setColumnWidth(column int, width int) {
 }
 
 func getColumnName(column int) string {
+	var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	column = column % len(alphabet)
 	if column < 0 {
 		column = len(alphabet) + column
@@ -68,6 +74,9 @@ func equalizeColumns() {
 	for row := range contentMap {
 		for column := range contentMap[row] {
 			content := contentMap[row][column]
+			if len(content) > 0 && content[0] == '=' {
+				content = eval(content[1:])
+			}
 			columnWidthMap[column] = max(columnWidthMap[column], len(content)+1)
 		}
 	}
