@@ -20,29 +20,6 @@ var frame = 0
 var scrollOffset = []int{0, 0}
 var showGrid = false
 
-func save(filename string) {
-	file, err := os.Create(filename)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error creating file: %v\n", err)
-		return
-	}
-	defer file.Close()
-
-	for row := 0; row <= maxRow(); row++ {
-		for column := 0; column <= maxColumn(); column++ {
-			contentReference := getCellContent(row, column)
-			if contentReference != nil {
-				content := *contentReference
-				file.WriteString(content)
-			}
-			if column < maxColumn() {
-				file.WriteString(",")
-			}
-		}
-		file.WriteString("\n")
-	}
-}
-
 func handleMovement() bool {
 	if keyPressed(27, 91, 65, bytes) { // Up
 		scrollOffset[1]--
