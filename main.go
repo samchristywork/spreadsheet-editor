@@ -143,11 +143,7 @@ func main() {
 		} else if keyPressed(byte('s'), 0, 0, bytes) {
 			save(filename)
 		} else if keyPressed(1, 0, 0, bytes) { // Ctrl-A
-			content := ""
-			contentReference := getCellContent(currentCell[0], currentCell[1])
-			if contentReference != nil {
-				content = *contentReference
-			}
+			content, _ := getCellContent(currentCell[0], currentCell[1])
 
 			contentInt, err := strconv.Atoi(content)
 			if err != nil {
@@ -158,11 +154,7 @@ func main() {
 			content = strconv.Itoa(contentInt)
 			setCellContent(currentCell[0], currentCell[1], content)
 		} else if keyPressed(24, 0, 0, bytes) { // Ctrl-X
-			content := ""
-			contentReference := getCellContent(currentCell[0], currentCell[1])
-			if contentReference != nil {
-				content = *contentReference
-			}
+			content, _ := getCellContent(currentCell[0], currentCell[1])
 
 			contentInt, err := strconv.Atoi(content)
 			if err != nil {

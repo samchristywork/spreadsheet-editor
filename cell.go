@@ -24,11 +24,7 @@ func getCellColor(row int, column int) *[]int {
 func editCell(t *term.Term) *string {
 	width, _ := screenDimensions()
 
-	entry := ""
-	entryReference := getCellContent(currentCell[0], currentCell[1])
-	if entryReference != nil {
-		entry = *entryReference
-	}
+	entry, _ := getCellContent(currentCell[0], currentCell[1])
 
 	x := len(entry) + 1
 
@@ -79,25 +75,20 @@ func editCell(t *term.Term) *string {
 }
 
 func copyCell() {
-	clipboardReference := getCellContent(currentCell[0], currentCell[1])
-	if clipboardReference != nil {
-		clipboard = *clipboardReference
-	} else {
-		clipboard = ""
-	}
+	clipboard, _ = getCellContent(currentCell[0], currentCell[1])
 }
 
 func pasteCell() {
 	setCellContent(currentCell[0], currentCell[1], clipboard)
 }
 
-func getCellContent(row int, column int) *string {
+func getCellContent(row int, column int) (string, error) {
 	if contentMap[row] == nil {
-		return nil
+		return "", fmt.Errorf("Error getting cell: Cell %s%s is empty", getColumnName(column), row+1)
 	}
 
 	content := contentMap[row][column]
-	return &content
+	return content, nil
 }
 
 func setCellContent(row int, column int, content string) {

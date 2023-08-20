@@ -54,10 +54,12 @@ func renderStatusLine() {
 func renderCell(row int, column int, width int) {
 	row = row + scrollOffset[1]
 	column = column + scrollOffset[0]
-	content := ""
-	contentReference := getCellContent(row, column)
-	if contentReference != nil {
-		content = *contentReference
+	content, _ := getCellContent(row, column)
+
+	evaluated := false
+	if strings.HasPrefix(content, "=") && !(row == currentCell[0] && column == currentCell[1]) {
+		content = eval(content[1:])
+		evaluated = true
 	}
 
 	c := getCellColor(row, column)
