@@ -36,7 +36,7 @@ func renderHeadings(x int, y int) {
 	}
 }
 
-func renderStatusLine() {
+func renderStatusLine(bytes []byte) {
 	width, height := screenDimensions()
 
 	content := fmt.Sprintf("Keypress: %d %d %d, Frame: %d, Position: %d %d", bytes[0], bytes[1], bytes[2], frame, currentCell[0], currentCell[1])

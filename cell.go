@@ -35,7 +35,8 @@ func editCell(t *term.Term) *string {
 		setCursorPosition(x, 2)
 		makeCursorVisible()
 
-		if !nextKeyPress() {
+		bytes, err := nextKeyPress()
+		if err != nil {
 			break
 		}
 

@@ -113,8 +113,10 @@ func main() {
 	makeCursorInvisible()
 	t.SetRaw()
 
-	bytes = make([]byte, 3) // buffer to read escape sequences
+	bytes := make([]byte, 3)
 	for {
+		frame++
+
 		if currentCell[0] < 0 {
 			currentCell[0] = 0
 		}
@@ -122,17 +124,19 @@ func main() {
 			currentCell[1] = 0
 		}
 
-		render()
+		render(bytes)
 
-		if !nextKeyPress() {
-			break
+		bytes, err = nextKeyPress()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error reading keypress: %v\n", err)
+			return
 		}
 
-		if handleMovement() {
+		if handleMovement(bytes) {
 			continue
 		}
 
-		if handleClipboard() {
+		if handleClipboard(bytes) {
 			continue
 		}
 
