@@ -118,80 +118,20 @@ func renderGrid() {
 	}
 }
 
-func render() {
+func renderTitle() {
+	width, _ := screenDimensions()
 	setCursorPosition(1, 1)
-	fmt.Printf("Hello, World!\n")
-	frame++
 
+	content, _ := getCellContent(currentCell[0], currentCell[1])
+	value, _ := getCellValue(currentCell[0], currentCell[1])
+
+	s := fmt.Sprintf("Cell: %s%d, Content: '%s' Display: '%s'", intToAlpha(currentCell[1]), currentCell[0], content, value)
+	fmt.Printf("%s", fixedWidth(s, width))
+}
+
+func render(bytes []byte) {
+	renderTitle()
 	renderHeadings(1, 3)
-
-	renderStatusLine()
-
+	renderStatusLine(bytes)
 	renderGrid()
-}
-
-func drawRectangle(x int, y int, width int, height int) {
-	setCursorPosition(x, y)
-	fmt.Printf("┌")
-	for i := 0; i < width-2; i++ {
-		fmt.Printf("─")
-	}
-	fmt.Printf("┐")
-
-	for i := 0; i < height-2; i++ {
-		setCursorPosition(x, y+i+1)
-		fmt.Printf("│")
-		setCursorPosition(x+width-1, y+i+1)
-		fmt.Printf("│")
-	}
-
-	setCursorPosition(x, y+height-1)
-	fmt.Printf("└")
-	for i := 0; i < width-2; i++ {
-		fmt.Printf("─")
-	}
-	fmt.Printf("┘")
-}
-
-func clearRectangle(x int, y int, width int, height int) {
-	for i := 0; i < height; i++ {
-		setCursorPosition(x, y+i)
-		for j := 0; j < width; j++ {
-			fmt.Printf(" ")
-		}
-	}
-}
-
-func messageBox(title string, message string) {
-	width, height := screenDimensions()
-
-	messages := strings.Split(message, "\n")
-
-	stringWidth := len(title)
-	for i := 0; i < len(messages); i++ {
-		if len(messages[i]) > stringWidth {
-			stringWidth = len(messages[i])
-		}
-	}
-
-	boxWidth := stringWidth
-	boxHeight := len(messages) + 2
-
-	x := width/2 - boxWidth/2
-	y := height/2 - boxHeight/2
-
-	clearRectangle(x-2, y-2, boxWidth+4, boxHeight+2)
-	drawRectangle(x-2, y-2, boxWidth+4, boxHeight+2)
-
-	setCursorPosition(x, y-1)
-	invert()
-	fmt.Printf("%s", fixedWidth(title, boxWidth))
-	resetColor()
-
-	for i := 0; i < len(messages); i++ {
-		setCursorPosition(x, y+1+i)
-		fmt.Printf("%s", fixedWidth(messages[i], boxWidth))
-	}
-
-	nextKeyPress()
 }
