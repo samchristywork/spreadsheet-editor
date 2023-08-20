@@ -99,3 +99,21 @@ func setCellContent(row int, column int, content string) {
 
 	contentMap[row][column] = content
 }
+
+func getCellValue(row int, column int) (string, error) {
+	content, err := getCellContent(row, column)
+	if err != nil {
+		return "", err
+	}
+
+	if content == "" {
+		return "", nil
+	}
+
+	if content[0] == '=' {
+		val := eval(content[1:])
+		return val, nil
+	} else {
+		return content, nil
+	}
+}
