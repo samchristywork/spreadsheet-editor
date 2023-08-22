@@ -16,6 +16,14 @@ func isPrintable(bytes []byte) bool {
 	return bytes[0] >= 32 && bytes[0] <= 126
 }
 
+func isCapitalLetter(c rune) bool {
+	return c >= 'A' && c <= 'Z'
+}
+
+func isDigit(c rune) bool {
+	return c >= '0' && c <= '9'
+}
+
 func fixedWidth(s string, width int) string {
 	if len(s) > width {
 		if width < 1 {
