@@ -98,6 +98,7 @@ func setCellContent(row int, column int, content string) {
 	}
 
 	contentMap[row][column] = content
+	modified = true
 }
 
 func getCellValue(row int, column int) (string, error) {
