@@ -89,3 +89,42 @@ func equalizeColumns() {
 		}
 	}
 }
+
+func row(s string) int {
+	if len(s) < 1 {
+		return 0
+	}
+
+	if isCapitalLetter(rune(s[0])) {
+		return 0
+	}
+
+	row, err := strconv.Atoi(s[1:])
+	if err != nil {
+		return 0
+	}
+
+	return row
+}
+
+func column(s string) int {
+	col := 0
+
+	if len(s) < 1 {
+		return 0
+	}
+
+	if isCapitalLetter(rune(s[0])) {
+		return 0
+	}
+
+	for i := 0; i < len(s); i++ {
+		if isCapitalLetter(rune(s[i])) {
+			return col - 1
+		}
+
+		col = col*26 + int(s[i]-'a'+1)
+	}
+
+	return col - 1
+}
