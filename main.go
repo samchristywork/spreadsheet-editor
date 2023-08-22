@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/pkg/term"
+	"log"
 	"os"
 	"strconv"
 )
@@ -26,6 +27,15 @@ func quit() bool {
 }
 
 func main() {
+	f, err := os.OpenFile("test.log", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0666)
+	if err != nil {
+		fmt.Printf("error opening file: %v", err)
+	}
+
+	defer f.Close()
+
+	log.SetOutput(f)
+
 	if len(os.Args) != 2 {
 		fmt.Fprintf(os.Stderr, "Usage: %s <filename>\n", os.Args[0])
 		return
