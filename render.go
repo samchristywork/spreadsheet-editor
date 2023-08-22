@@ -91,6 +91,7 @@ func renderCell(row int, column int, width int) {
 				invert()
 			}
 		}
+
 		fmt.Printf("%s", fixedWidth(content, width))
 	}
 

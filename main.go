@@ -26,6 +26,34 @@ func quit() bool {
 	}
 }
 
+func tokenize(content string) ([]string, error) {
+	var tokens []string
+	var currentToken string
+
+	for _, c := range content {
+		if c >= '0' && c <= '9' {
+			currentToken += string(c)
+		} else if c >= 'a' && c <= 'z' {
+			currentToken += string(c)
+		} else if c >= 'A' && c <= 'Z' {
+			currentToken += string(c)
+		} else {
+			if len(currentToken) > 0 {
+				tokens = append(tokens, currentToken)
+				currentToken = ""
+			}
+
+			tokens = append(tokens, string(c))
+		}
+	}
+
+	if len(currentToken) > 0 {
+		tokens = append(tokens, currentToken)
+	}
+
+	return tokens, nil
+}
+
 func main() {
 	f, err := os.OpenFile("test.log", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0666)
 	if err != nil {
