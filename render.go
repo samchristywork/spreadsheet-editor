@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 func renderHeadings(x int, y int) {
@@ -51,48 +50,53 @@ func renderStatusLine(bytes []byte) {
 	resetColor()
 }
 
+func applyCellColors(row int, column int, evaluated bool) {
+	c, err := getCellColor(row, column)
+
+	if showGrid {
+		backgroundColor(0, 0, 0)
+		if row%2+column%2 == 1 {
+			backgroundColor(20, 20, 20)
+		}
+	}
+
+	// Apply color
+	if err == nil && len(c) == 3 {
+		color(c[0], c[1], c[2])
+	}
+
+	// Show currently selected cell
+	if row == currentCell[0] && column == currentCell[1] {
+		invert()
+	}
+
+	// Highlight cells that have been evaluated
+	if evaluated && !(row == currentCell[0] && column == currentCell[1]) {
+		color(100, 200, 100)
+	}
+
+	// Highlight cells that are out of bounds
+	if row < 0 || column < 0 {
+		color(100, 100, 100)
+	}
+}
+
 func renderCell(row int, column int, width int) {
 	row = row + scrollOffset[1]
 	column = column + scrollOffset[0]
+
 	content, _ := getCellContent(row, column)
+	value, _ := getCellValue(row, column)
 
-	evaluated := false
-	if strings.HasPrefix(content, "=") && !(row == currentCell[0] && column == currentCell[1]) {
-		content = eval(content[1:])
-		evaluated = true
-	}
+	applyCellColors(row, column, content != value)
 
-	c := getCellColor(row, column)
-	if c != nil {
-		if len(*c) == 3 {
-			color((*c)[0], (*c)[1], (*c)[2])
-		}
-	}
-
-	if row == currentCell[0] && column == currentCell[1] {
-		if !showGrid {
-			invert()
-		} else {
-			if (currentCell[0]+currentCell[1])%2 == 0 {
-			} else {
-				invert()
-			}
-		}
-		fmt.Printf("%s", fixedWidth(content, width))
-	} else if row < 0 || column < 0 {
-		color(100, 100, 100)
+	// Render cell
+	if row < 0 || column < 0 {
 		fmt.Printf("%s", fixedWidth("-----", width))
-	} else {
-		if evaluated {
-			color(100, 200, 100)
-		}
-		if showGrid {
-			if (row+column)%2 == 0 {
-				invert()
-			}
-		}
-
+	} else if row == currentCell[0] && column == currentCell[1] {
 		fmt.Printf("%s", fixedWidth(content, width))
+	} else {
+		fmt.Printf("%s", fixedWidth(value, width))
 	}
 
 	resetColor()
