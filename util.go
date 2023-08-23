@@ -113,21 +113,32 @@ func splitColumnRow(s string) (string, string) {
 	return s[0:pivot], s[pivot:]
 }
 
+func row(s string) int {
+	_, row := splitColumnRow(s)
+
+	if len(row) < 1 {
+		return 0
+	}
+
+	rowInt, err := strconv.Atoi(row)
+	if err != nil {
+		return 0
+	}
+
+	return rowInt
+}
 
 func column(s string) int {
 	column, _ := splitColumnRow(s)
 
-	if isCapitalLetter(rune(s[0])) {
+	if len(column) < 1 {
 		return 0
 	}
 
-	for i := 0; i < len(s); i++ {
-		if isCapitalLetter(rune(s[i])) {
-			return col - 1
-		}
-
-		col = col*26 + int(s[i]-'a'+1)
+	columnInt := 0
+	for _, c := range column {
+		columnInt = columnInt*26 + int(c-'A'+1)
 	}
 
-	return col - 1
+	return columnInt - 1
 }
