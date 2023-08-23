@@ -7,12 +7,7 @@ import (
 	"strings"
 )
 
-func isNumeric(s string) bool {
-	_, err := strconv.ParseFloat(s, 64)
-	return err == nil
-}
-
-func getCellRange(row1 int, col1 int, row2 int, col2 int) []string {
+func getCellRange(col1 int, row1 int, col2 int, row2 int) ([]string, error) {
 	cells := make([]string, 0, 8)
 
 	if col1 == col2 {
@@ -24,10 +19,10 @@ func getCellRange(row1 int, col1 int, row2 int, col2 int) []string {
 			cells = append(cells, fmt.Sprintf("%v%v", getColumnName(col), row1))
 		}
 	} else {
-		panic("Error creating range: Only supports ranges in a single row or column")
+		return nil, fmt.Errorf("Error creating range: Only supports ranges in a single row or column")
 	}
 
-	return cells
+	return cells, nil
 }
 
 func eval(expression string) string {
