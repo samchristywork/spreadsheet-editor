@@ -54,6 +54,44 @@ func tokenize(content string) ([]string, error) {
 	return tokens, nil
 }
 
+func isCellIdentifier(token string) bool {
+	if len(token) == 0 {
+		return false
+	}
+
+	if !isCapitalLetter(rune(token[0])) {
+		return false
+	}
+
+	if !isDigit(rune(token[len(token)-1])) {
+		return false
+	}
+
+	index := 0
+
+	for index < len(token) {
+		if isDigit(rune(token[index])) {
+			break
+		}
+
+		index++
+	}
+
+	for index < len(token) {
+		if !isDigit(rune(token[index])) {
+			break
+		}
+
+		index++
+	}
+
+	if index != len(token) {
+		return false
+	}
+
+	return true
+}
+
 func main() {
 	f, err := os.OpenFile("test.log", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0666)
 	if err != nil {
