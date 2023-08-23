@@ -26,3 +26,18 @@ func TestCol(t *testing.T) {
 
 	assertEqual(t, column("BC9"), 54)
 }
+
+func TestRow(t *testing.T) {
+	assertEqual(t, row("A0"), 0)
+
+	_, r := splitColumnRow("A0")
+	assertEqual(t, r, "0")
+
+	_, r = splitColumnRow("G4")
+	assertEqual(t, r, "4")
+
+	_, r = splitColumnRow("GT41")
+	assertEqual(t, r, "41")
+
+	assertEqual(t, row("C9"), 9)
+}
