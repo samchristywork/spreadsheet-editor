@@ -9,12 +9,13 @@ func setCellColor(row int, column int) {
 	if cellColorMap[row] == nil {
 		cellColorMap[row] = make(map[int][]int)
 	}
+
 	cellColorMap[row][column] = []int{255, 0, 0}
 }
 
-func getCellColor(row int, column int) *[]int {
+func getCellColor(row int, column int) ([]int, error) {
 	if cellColorMap[row] == nil {
-		return nil
+		return nil, fmt.Errorf("No color for cell %d, %d", row, column)
 	}
 
 	color := cellColorMap[row][column]
@@ -23,7 +24,6 @@ func getCellColor(row int, column int) *[]int {
 
 func editCell(t *term.Term) *string {
 	width, _ := screenDimensions()
-
 	entry, _ := getCellContent(currentCell[0], currentCell[1])
 
 	x := len(entry) + 1

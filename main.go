@@ -210,9 +210,9 @@ func main() {
 			content = strconv.Itoa(contentInt)
 			setCellContent(currentCell[0], currentCell[1], content)
 		} else if keyPressed(byte('c'), 0, 0, bytes) {
-			c := getCellColor(currentCell[0], currentCell[1])
+			c, _ := getCellColor(currentCell[0], currentCell[1])
 			if c != nil {
-				if len(*c) == 3 {
+				if len(c) == 3 {
 					delete(cellColorMap[currentCell[0]], currentCell[1])
 					continue
 				}
