@@ -67,3 +67,15 @@ func TestGetColumnName(t *testing.T) {
 
 	assertEqual(t, getColumnName(54), "BC")
 }
+
+func TestCellContent(t *testing.T) {
+	setCellContent(1, 1, "123")
+
+	content, err := getCellContent(1, 1)
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+
+	assertEqual(t, content, "123")
+}
+
