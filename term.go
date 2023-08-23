@@ -8,6 +8,7 @@ import (
 
 func alternateScreen() {
 	fmt.Printf("\033[?1049h")
+	fmt.Printf("\033[2J")
 }
 
 func normalScreen() {
