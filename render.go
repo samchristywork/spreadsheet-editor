@@ -131,7 +131,7 @@ func renderTitle() {
 	content, _ := getCellContent(currentCell[0], currentCell[1])
 	value, _ := getCellValue(currentCell[0], currentCell[1])
 
-	s := fmt.Sprintf("Cell: %s%d, Content: '%s' Display: '%s'", intToAlpha(currentCell[1]), currentCell[0], content, value)
+	s := fmt.Sprintf("Cell: %s%d, Content: '%s' Display: '%s'", getColumnName(currentCell[1]), currentCell[0], content, value)
 	fmt.Printf("%s", fixedWidth(s, width))
 }
 

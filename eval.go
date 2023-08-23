@@ -12,28 +12,16 @@ func isNumeric(s string) bool {
 	return err == nil
 }
 
-func intToAlpha(i int) string {
-	if i < 0 {
-		panic("Error converting int: Does not support negative numbers")
-	}
-
-	if i < 26 {
-		return string('A' + i)
-	}
-
-	return intToAlpha(i/26-1) + intToAlpha(i%26)
-}
-
 func getCellRange(row1 int, col1 int, row2 int, col2 int) []string {
 	cells := make([]string, 0, 8)
 
 	if col1 == col2 {
 		for row := row1; row <= row2; row++ {
-			cells = append(cells, fmt.Sprintf("%v%v", intToAlpha(col1), row))
+			cells = append(cells, fmt.Sprintf("%v%v", getColumnName(col1), row))
 		}
 	} else if row1 == row2 {
 		for col := col1; col <= col2; col++ {
-			cells = append(cells, fmt.Sprintf("%v%v", intToAlpha(col), row1))
+			cells = append(cells, fmt.Sprintf("%v%v", getColumnName(col), row1))
 		}
 	} else {
 		panic("Error creating range: Only supports ranges in a single row or column")

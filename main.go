@@ -59,13 +59,12 @@ func isCellIdentifier(token string) bool {
 		return false
 	}
 
-	if !isCapitalLetter(rune(token[0])) {
-		return false
+	if token == getColumnName(col)+strconv.Itoa(row) {
+		return true
 	}
 
-	if !isDigit(rune(token[len(token)-1])) {
-		return false
-	}
+	return false
+}
 
 	index := 0
 
