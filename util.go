@@ -11,6 +11,13 @@ func max(a int, b int) int {
 	return b
 }
 
+func min(a int, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
 func isPrintable(bytes []byte) bool {
 	return bytes[0] >= 32 && bytes[0] <= 126
 }
@@ -21,6 +28,11 @@ func isCapitalLetter(c rune) bool {
 
 func isDigit(c rune) bool {
 	return c >= '0' && c <= '9'
+}
+
+func isNumeric(s string) bool {
+	_, err := strconv.ParseFloat(s, 64)
+	return err == nil
 }
 
 func fixedWidth(s string, width int) string {
