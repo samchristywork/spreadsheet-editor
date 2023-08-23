@@ -25,45 +25,82 @@ func getCellRange(col1 int, row1 int, col2 int, row2 int) ([]string, error) {
 	return cells, nil
 }
 
+func strlen(args ...interface{}) (interface{}, error) {
+	length := len(args[0].(string))
+	return (float64)(length), nil
+}
+
+func sum(args ...interface{}) (interface{}, error) {
+	if len(args) == 2 {
+		return args[0].(float64) + args[1].(float64), nil
+	}
+
+	if len(args) == 1 {
+		s := strings.Split(args[0].(string), ":")
+		sum := 0.0
+
+		cells, err := getCellRange(column(s[0]), row(s[0]), column(s[1]), row(s[1]))
+		if err != nil {
+			return nil, fmt.Errorf("%v", err)
+		}
+
+		for _, cell := range cells {
+			value, err := getCellValue(row(cell), column(cell))
+			if err != nil {
+				return nil, fmt.Errorf("Error finding cell: " + cell)
+			}
+
+			if isNumeric(value) {
+				f, err := strconv.ParseFloat(value, 64)
+				if err != nil {
+					return nil, fmt.Errorf("%v", err)
+				}
+				sum += f
+			} else {
+				return nil, fmt.Errorf("Error applying sum: Can only be used with numeric values")
+			}
+		}
+
+		return sum, nil
+	}
+
+	return nil, fmt.Errorf("Error applying sum: Function takes 1 or 2 arguments")
+}
+
+func collectParameters(evaluableExpression *govaluate.EvaluableExpression) (map[string]interface{}, error) {
+	parameters := make(map[string]interface{}, 8)
+	vars := evaluableExpression.Vars()
+
+	for _, v := range vars {
+		if !isCellIdentifier(v) {
+			return nil, fmt.Errorf("Error applying function: %s is not a valid cell identifier", v)
+		}
+
+		val, err := getCellValue(row(v), column(v))
+		if err != nil {
+			return nil, fmt.Errorf("Error finding cell: " + v)
+		}
+
+		if val == "" {
+			return nil, fmt.Errorf("Error applying function: Cell %s is empty", v)
+		} else if isNumeric(val) {
+			f, err := strconv.ParseFloat(val, 64)
+			if err != nil {
+				return nil, fmt.Errorf("%v", err)
+			}
+			parameters[v] = f
+		} else {
+			parameters[v] = val
+		}
+	}
+
+	return parameters, nil
+}
+
 func eval(expression string) string {
 	functions := map[string]govaluate.ExpressionFunction{
-		"strlen": func(args ...interface{}) (interface{}, error) {
-			length := len(args[0].(string))
-			return (float64)(length), nil
-		},
-		"sum": func(args ...interface{}) (interface{}, error) {
-			if len(args) == 2 {
-				return args[0].(float64) + args[1].(float64), nil
-			}
-
-			if len(args) == 1 {
-				s := strings.Split(args[0].(string), ":")
-				sum := 0.0
-
-				cells := getCellRange(row(s[0]), column(s[0]), row(s[1]), column(s[1]))
-
-				for _, cell := range cells {
-					value, err := getCellValue(row(cell), column(cell))
-					if err != nil {
-						return nil, fmt.Errorf("Error finding cell: " + cell)
-					}
-
-					if isNumeric(value) {
-						f, err := strconv.ParseFloat(value, 64)
-						if err != nil {
-							return nil, fmt.Errorf("%v", err)
-						}
-						sum += f
-					} else {
-						return nil, fmt.Errorf("Error applying sum: Can only be used with numeric values")
-					}
-				}
-
-				return sum, nil
-			}
-
-			return nil, fmt.Errorf("Error applying sum: Function takes 1 or 2 arguments")
-		},
+		"strlen": strlen,
+		"sum":    sum,
 	}
 
 	evaluableExpression, err := govaluate.NewEvaluableExpressionWithFunctions(expression, functions)
@@ -71,23 +108,9 @@ func eval(expression string) string {
 		return fmt.Sprintf("%v", err)
 	}
 
-	parameters := make(map[string]interface{}, 8)
-	vars := evaluableExpression.Vars()
-	for _, v := range vars {
-		val, err := getCellValue(row(v), column(v))
-		if err != nil {
-			return fmt.Sprintf("%v", err)
-		}
-
-		if isNumeric(val) {
-			f, err := strconv.ParseFloat(val, 64)
-			if err != nil {
-				return fmt.Sprintf("%v", err)
-			}
-			parameters[v] = f
-		} else {
-			parameters[v] = val
-		}
+	parameters, err := collectParameters(evaluableExpression)
+	if err != nil {
+		return fmt.Sprintf("%v", err)
 	}
 
 	result, err := evaluableExpression.Evaluate(parameters)
