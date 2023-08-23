@@ -85,7 +85,7 @@ func pasteCell() {
 
 func getCellContent(row int, column int) (string, error) {
 	if contentMap[row] == nil {
-		return "", fmt.Errorf("Error getting cell: Cell %s%s is empty", getColumnName(column), row+1)
+		return "", fmt.Errorf("Error getting cell: Cell %s%d is empty", getColumnName(column), row+1)
 	}
 
 	content := contentMap[row][column]
