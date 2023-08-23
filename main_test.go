@@ -55,3 +55,15 @@ func TestFixedWidth(t *testing.T) {
 
 	assertEqual(t, fixedWidth("fooBarBaz", 5), "fooB…")
 }
+
+func TestGetColumnName(t *testing.T) {
+	assertEqual(t, getColumnName(0), "A")
+
+	assertEqual(t, getColumnName(1), "B")
+
+	assertEqual(t, getColumnName(2), "C")
+
+	assertEqual(t, getColumnName(26), "AA")
+
+	assertEqual(t, getColumnName(54), "BC")
+}
