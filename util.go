@@ -2,7 +2,6 @@ package main
 
 import (
 	"strconv"
-	"strings"
 )
 
 func max(a int, b int) int {
@@ -51,12 +50,11 @@ func setColumnWidth(column int, width int) {
 }
 
 func getColumnName(column int) string {
-	var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	column = column % len(alphabet)
-	if column < 0 {
-		column = len(alphabet) + column
+	if column < 26 {
+		return string(rune('A' + column))
 	}
-	return alphabet[column : column+1]
+
+	return getColumnName(column/26-1) + getColumnName(column%26)
 }
 
 func maxColumn() int {
