@@ -40,4 +40,18 @@ func TestRow(t *testing.T) {
 	assertEqual(t, r, "41")
 
 	assertEqual(t, row("C9"), 9)
+
+	assertEqual(t, row("GT41"), 41)
+}
+
+func TestFixedWidth(t *testing.T) {
+	assertEqual(t, fixedWidth("foo", 5), "foo  ")
+
+	assertEqual(t, fixedWidth("foo", 2), "f…")
+
+	assertEqual(t, fixedWidth("foo", 0), "")
+
+	assertEqual(t, fixedWidth("", 5), "     ")
+
+	assertEqual(t, fixedWidth("fooBarBaz", 5), "fooB…")
 }
