@@ -8,7 +8,7 @@ import (
 
 func alternateScreen() {
 	fmt.Printf("\033[?1049h")
-	fmt.Printf("\033[2J")
+	fmt.Printf("\033[2J") // Clear the screen
 }
 
 func normalScreen() {
@@ -19,6 +19,10 @@ func color(r int, g int, b int) {
 	fmt.Printf("\033[38;2;%d;%d;%dm", r, g, b)
 }
 
+func backgroundColor(r int, g int, b int) {
+	fmt.Printf("\033[48;2;%d;%d;%dm", r, g, b)
+}
+
 func resetColor() {
 	fmt.Printf("\033[0m")
 }
@@ -27,7 +31,7 @@ func invert() {
 	fmt.Printf("\033[7m")
 }
 
-func setCursorPosition(x, y int) {
+func setCursorPosition(x int, y int) {
 	fmt.Printf("\033[%d;%df", y, x)
 }
 
