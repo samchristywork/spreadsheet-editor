@@ -88,29 +88,22 @@ func equalizeColumns() {
 	}
 }
 
-func row(s string) int {
+func splitColumnRow(s string) (string, string) {
 	if len(s) < 1 {
-		return 0
+		return "", ""
 	}
 
-	if isCapitalLetter(rune(s[0])) {
-		return 0
+	pivot := 0
+	for pivot < len(s) && isCapitalLetter(rune(s[pivot])) {
+		pivot++
 	}
 
-	row, err := strconv.Atoi(s[1:])
-	if err != nil {
-		return 0
-	}
-
-	return row
+	return s[0:pivot], s[pivot:]
 }
 
-func column(s string) int {
-	col := 0
 
-	if len(s) < 1 {
-		return 0
-	}
+func column(s string) int {
+	column, _ := splitColumnRow(s)
 
 	if isCapitalLetter(rune(s[0])) {
 		return 0
