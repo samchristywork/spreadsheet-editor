@@ -79,3 +79,24 @@ func TestCellContent(t *testing.T) {
 	assertEqual(t, content, "123")
 }
 
+func TestGetValue(t *testing.T) {
+	setCellContent(0, 0, "1")
+
+	setCellContent(0, 1, "2")
+
+	setCellContent(0, 2, "=A0+B0")
+
+	content, err := getCellValue(0, 0)
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+
+	assertEqual(t, content, "1")
+
+	content, err = getCellValue(0, 2)
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+
+	assertEqual(t, content, "3")
+}
