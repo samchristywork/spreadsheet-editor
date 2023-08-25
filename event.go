@@ -12,8 +12,6 @@ type helpItem struct {
 	function    func()
 }
 
-var shortcuts = map[string][]helpItem{}
-
 func shortcut(a byte, b byte, c byte, category string, shortcut string, description string, function func()) {
 	if _, ok := shortcuts[category]; !ok {
 		shortcuts[category] = []helpItem{}

@@ -15,7 +15,9 @@ var contentMap = map[int]map[int]string{}
 var currentCell = []int{0, 0}
 var frame = 0
 var modified = false
+var running = true
 var scrollOffset = []int{0, 0}
+var shortcuts = map[string][]helpItem{}
 var showGrid = false
 
 func quit() bool {
@@ -96,6 +98,14 @@ func handleIncrement(content string, row int, col int, rowDelta int, colDelta in
 	setCellContent(currentCell[0]+rowDelta, currentCell[1]+colDelta, content)
 }
 
+func handleKeypress(bytes []byte) {
+	for i := range shortcuts {
+		for c := range shortcuts[i] {
+			if keyPressed(shortcuts[i][c].key[0], shortcuts[i][c].key[1], shortcuts[i][c].key[2], bytes) {
+				shortcuts[i][c].function()
+			}
+		}
+	}
 }
 
 func main() {
@@ -126,8 +136,10 @@ func main() {
 	makeCursorInvisible()
 	t.SetRaw()
 
+	registerFunctions(t)
+
 	bytes := make([]byte, 3)
-	for {
+	for running {
 		frame++
 
 		if currentCell[0] < 0 {
@@ -145,9 +157,7 @@ func main() {
 			return
 		}
 
-		if handleMovement(bytes) {
-			continue
-		}
+		handleKeypress(bytes)
 
 	}
 
