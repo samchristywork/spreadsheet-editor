@@ -19,8 +19,16 @@ func color(r int, g int, b int) {
 	fmt.Printf("\033[38;2;%d;%d;%dm", r, g, b)
 }
 
+func colorString(r int, g int, b int) string {
+	return fmt.Sprintf("\033[38;2;%d;%d;%dm", r, g, b)
+}
+
 func backgroundColor(r int, g int, b int) {
 	fmt.Printf("\033[48;2;%d;%d;%dm", r, g, b)
+}
+
+func backgroundColorString(r int, g int, b int) string {
+	return fmt.Sprintf("\033[48;2;%d;%d;%dm", r, g, b)
 }
 
 func resetColor() {
