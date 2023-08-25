@@ -55,9 +55,8 @@ func tokenize(content string) ([]string, error) {
 }
 
 func isCellIdentifier(token string) bool {
-	if len(token) == 0 {
-		return false
-	}
+	row := row(token)
+	col := column(token)
 
 	if token == getColumnName(col)+strconv.Itoa(row) {
 		return true
@@ -66,22 +65,32 @@ func isCellIdentifier(token string) bool {
 	return false
 }
 
-	index := 0
+func incrementToken(token string, colDelta int, rowDelta int) string {
+	r := row(token)
+	c := column(token)
 
-	for index < len(token) {
-		if isDigit(rune(token[index])) {
-			break
+	return getColumnName(c+colDelta) + strconv.Itoa(r+rowDelta)
+}
+
+func handleIncrement(content string, row int, col int, rowDelta int, colDelta int) {
+	if len(content) > 0 && content[0] == '=' {
+		tokens, err := tokenize(content)
+		if err != nil {
+			return
 		}
 
-		index++
-	}
+		newContent := ""
+		for i := 0; i < len(tokens); i++ {
+			if !isCellIdentifier(tokens[i]) {
+				newContent += tokens[i]
+				continue
+			}
 
-	for index < len(token) {
-		if !isDigit(rune(token[index])) {
-			break
+			newContent += incrementToken(tokens[i], colDelta, rowDelta)
 		}
 
-		index++
+		setCellContent(currentCell[0]+rowDelta, currentCell[1]+colDelta, newContent)
+		return
 	}
 
 	setCellContent(currentCell[0]+rowDelta, currentCell[1]+colDelta, content)
