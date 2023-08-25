@@ -142,3 +142,26 @@ func assertRange(t *testing.T, a []string, b []string) {
 		assertEqual(t, a[i], b[i])
 	}
 }
+
+func TestRange(t *testing.T) {
+	r, err := getCellRange(0, 0, 3, 0)
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+
+	assertRange(t, r, []string{"A0", "B0", "C0", "D0"})
+
+	r, err = getCellRange(1, 2, 1, 2)
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+
+	assertRange(t, r, []string{"B2"})
+
+	r, err = getCellRange(1, 2, 1, 5)
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+
+	assertRange(t, r, []string{"B2", "B3", "B4", "B5"})
+}
