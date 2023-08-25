@@ -84,11 +84,68 @@ func isCellIdentifier(token string) bool {
 		index++
 	}
 
-	if index != len(token) {
-		return false
-	}
+	setCellContent(currentCell[0]+rowDelta, currentCell[1]+colDelta, content)
+}
 
-	return true
+var running = true
+
+func registerMovement() {
+	category := "Movement"
+
+	shortcut(27, 91, 65, category, "Up", "Move up one cell", func() {
+		scrollOffset[1]--
+	})
+
+	shortcut(27, 91, 66, category, "Down", "Move down one cell", func() {
+		scrollOffset[1]++
+	})
+
+	shortcut(27, 91, 67, category, "Right", "Move right one cell", func() {
+		scrollOffset[0]++
+	})
+
+	shortcut(27, 91, 68, category, "Left", "Move left one cell", func() {
+		scrollOffset[0]--
+	})
+
+	shortcut(byte('h'), 0, 0, category, "h", "Move left one cell", func() {
+		currentCell[1]--
+	})
+
+	shortcut(byte('j'), 0, 0, category, "j", "Move down one cell", func() {
+		currentCell[0]++
+	})
+
+	shortcut(byte('k'), 0, 0, category, "k", "Move up one cell", func() {
+		currentCell[0]--
+	})
+
+	shortcut(byte('l'), 0, 0, category, "l", "Move right one cell", func() {
+		currentCell[1]++
+	})
+
+	shortcut(byte('H'), 0, 0, category, "H", "Move left five cells", func() {
+		currentCell[1] -= 5
+	})
+
+	shortcut(byte('J'), 0, 0, category, "J", "Move down five cells", func() {
+		currentCell[0] += 5
+	})
+
+	shortcut(byte('K'), 0, 0, category, "K", "Move up five cells", func() {
+		currentCell[0] -= 5
+	})
+
+	shortcut(byte('L'), 0, 0, category, "L", "Move right five cells", func() {
+		currentCell[1] += 5
+	})
+
+	shortcut(byte('0'), 0, 0, category, "0", "Move cursor to origin", func() {
+		scrollOffset[0] = 0
+		scrollOffset[1] = 0
+		currentCell[0] = 0
+		currentCell[1] = 0
+	})
 }
 
 func main() {
