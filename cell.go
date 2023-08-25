@@ -22,6 +22,14 @@ func getCellColor(row int, column int) ([]int, error) {
 	return color, nil
 }
 
+func waitForKeypress() ([]byte, error) {
+	makeCursorVisible()
+	bytes, err := nextKeyPress()
+	makeCursorInvisible()
+
+	return bytes, err
+}
+
 func editCell(t *term.Term) *string {
 	width, _ := screenDimensions()
 	entry, _ := getCellContent(currentCell[0], currentCell[1])
