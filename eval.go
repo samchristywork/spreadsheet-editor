@@ -12,11 +12,11 @@ func getCellRange(col1 int, row1 int, col2 int, row2 int) ([]string, error) {
 
 	if col1 == col2 {
 		for row := row1; row <= row2; row++ {
-			cells = append(cells, fmt.Sprintf("%v%v", getColumnName(col1), row))
+			cells = append(cells, fmt.Sprintf("%s%d", getColumnName(col1), row))
 		}
 	} else if row1 == row2 {
 		for col := col1; col <= col2; col++ {
-			cells = append(cells, fmt.Sprintf("%v%v", getColumnName(col), row1))
+			cells = append(cells, fmt.Sprintf("%s%d", getColumnName(col), row1))
 		}
 	} else {
 		return nil, fmt.Errorf("Error creating range: Only supports ranges in a single row or column")
