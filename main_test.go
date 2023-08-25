@@ -100,3 +100,35 @@ func TestGetValue(t *testing.T) {
 
 	assertEqual(t, content, "3")
 }
+
+func TestEval(t *testing.T) {
+	setCellContent(0, 0, "1")
+
+	setCellContent(0, 1, "2")
+
+	setCellContent(0, 2, "=A0+B0")
+
+	assertEqual(t, eval("1+1"), "2")
+
+	assertEqual(t, eval("sum(1,1)"), "2")
+
+	assertEqual(t, eval("sum(1,1+1)"), "3")
+
+	assertEqual(t, eval("strlen(\"foo\")"), "3")
+
+	assertEqual(t, eval("A0"), "1")
+
+	assertEqual(t, eval("B0"), "2")
+
+	assertEqual(t, eval("A0+B0"), "3")
+
+	assertEqual(t, eval("C0"), "3")
+
+	assertEqual(t, eval("sum(\"A0:C0\")"), "6")
+
+	assertEqual(t, eval("sum('A0:C0')"), "6")
+
+	assertEqual(t, eval("A0+D0"), "Error applying function: Cell D0 is empty")
+
+	assertEqual(t, eval("asdf"), "Error applying function: asdf is not a valid cell identifier")
+}
