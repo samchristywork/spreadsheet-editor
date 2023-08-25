@@ -19,54 +19,46 @@ func getCellColor(row int, column int) ([]int, error) {
 	}
 
 	color := cellColorMap[row][column]
-	return &color
+	return color, nil
 }
 
 func editCell(t *term.Term) *string {
 	width, _ := screenDimensions()
 	entry, _ := getCellContent(currentCell[0], currentCell[1])
 
-	x := len(entry) + 1
-
+	cursorOffset := len(entry)
 	for {
 		setCursorPosition(1, 2)
 		fmt.Printf("%s", fixedWidth(entry, width))
 
-		setCursorPosition(x, 2)
-		makeCursorVisible()
-
-		bytes, err := nextKeyPress()
+		setCursorPosition(cursorOffset+1, 2)
+		bytes, err := waitForKeypress()
 		if err != nil {
 			break
 		}
 
-		makeCursorInvisible()
-
 		if keyPressed(27, 0, 0, bytes) { // Escape
-			entry = ""
-			break
+			return nil
 		} else if keyPressed(27, 91, 68, bytes) { // Left
-			if x > 1 {
-				x--
-			}
+			cursorOffset--
 		} else if keyPressed(27, 91, 67, bytes) { // Right
-			if x < len(entry)+1 {
-				x++
-			}
+			cursorOffset++
 		} else if keyPressed(21, 0, 0, bytes) { // Ctrl-u
 			entry = ""
-			x = 1
 		} else if keyPressed(127, 0, 0, bytes) { // Backspace
-			if x > 1 {
-				entry = entry[:x-2] + entry[x-1:]
-				x--
+			if cursorOffset > 0 {
+				entry = entry[:cursorOffset-1] + entry[cursorOffset:]
+				cursorOffset--
 			}
 		} else if keyPressed(13, 0, 0, bytes) { // Enter
 			break
 		} else if isPrintable(bytes) {
-			entry = entry[:x-1] + string(bytes[0]) + entry[x-1:]
-			x++
+			entry = entry[:cursorOffset] + string(bytes[0]) + entry[cursorOffset:]
+			cursorOffset++
 		}
+
+		cursorOffset = max(cursorOffset, 0)
+		cursorOffset = min(cursorOffset, len(entry)+0)
 	}
 
 	setCursorPosition(1, 2)
