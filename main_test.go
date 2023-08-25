@@ -132,3 +132,13 @@ func TestEval(t *testing.T) {
 
 	assertEqual(t, eval("asdf"), "Error applying function: asdf is not a valid cell identifier")
 }
+
+func assertRange(t *testing.T, a []string, b []string) {
+	if len(a) != len(b) {
+		t.Errorf("len(a) = %d != len(b) = %d", len(a), len(b))
+	}
+
+	for i := 0; i < len(a); i++ {
+		assertEqual(t, a[i], b[i])
+	}
+}
