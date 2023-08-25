@@ -5,6 +5,23 @@ import (
 	"os"
 )
 
+type helpItem struct {
+	name        string
+	description string
+	key         []byte
+	function    func()
+}
+
+var shortcuts = map[string][]helpItem{}
+
+func shortcut(a byte, b byte, c byte, category string, shortcut string, description string, function func()) {
+	if _, ok := shortcuts[category]; !ok {
+		shortcuts[category] = []helpItem{}
+	}
+
+	shortcuts[category] = append(shortcuts[category], helpItem{shortcut, description, []byte{a, b, c}, function})
+}
+
 func keyPressed(a byte, b byte, c byte, bytes []byte) bool {
 	return bytes[0] == a && bytes[1] == b && bytes[2] == c
 }
