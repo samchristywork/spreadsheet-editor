@@ -1,9 +1,9 @@
-Name                     	 FP Cost 	 Heal Amount  	 Faith Requirement
-Urgent Heal              	 16FP    	 1.15*Scaling 	 8 Faith
-Heal                     	 32FP    	 2.3*Scaling  	 12 Faith
-Great Heal               	 45FP    	 3.64*Scaling 	 15 Faith
-Lord's Heal              	 55FP    	 4.2*Scaling  	 20 Faith
-Erdtree Heal             	 65FP    	 5.9*Scaling  	 42 Faith
-Bestial Vitality         	 18FP    	 5 HP*120 Sec 	 12 Faith
-Blessing's Boon          	 30FP    	 8 HP*90 Sec  	 24 Faith
-Blessings of the Erdtree 	 60FP    	 12 HP*90 Sec 	 38 Faith
+Name                     	 FP Cost 	 Heal Scaling 	Heal Over Time	Duration	Faith	Computed	HP/FP 	Scaling
+Urgent Heal              	 16      	 1.15         	              	        	 8   	=I1*C1  	=G1/B1	200
+Heal                     	 32      	 2.3          	              	        	 12  	=I1*C2  	=G2/B2	
+Great Heal               	 45      	 3.64         	              	        	 15  	=I1*C3  	=G3/B3	
+Lord's Heal              	 55      	 4.2          	              	        	 20  	=I1*C4  	=G4/B4	
+Erdtree Heal             	 65      	 5.9          	              	        	 42  	=I1*C5  	=G5/B5	
+Bestial Vitality         	 18      	              	5             	120     	 12  	=D6*E6  	=G6/B6	
+Blessing's Boon          	 30      	              	8             	90      	 24  	=D7*E7  	=G7/B7	
+Blessings of the Erdtree 	 60      	              	12            	90      	 38  	=D8*E8  	=G8/B8	
