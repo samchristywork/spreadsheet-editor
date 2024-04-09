@@ -101,6 +101,11 @@ func collectParameters(evaluableExpression *govaluate.EvaluableExpression) (map[
 	return parameters, nil
 }
 
+func isFloatingPointNumber(s string) bool {
+	_, err := strconv.ParseFloat(s, 64)
+	return err == nil
+}
+
 func eval(expression string) string {
 	functions := map[string]govaluate.ExpressionFunction{
 		"strlen": strlen,
@@ -122,5 +127,12 @@ func eval(expression string) string {
 		return fmt.Sprintf("%v", err)
 	}
 
-	return fmt.Sprintf("%v", result)
+	if isFloatingPointNumber(fmt.Sprintf("%v", result)) {
+		s := fmt.Sprintf("%.4f", result)
+		s = strings.TrimRight(s, "0")
+		s = strings.TrimRight(s, ".")
+		return s
+	} else {
+		return fmt.Sprintf("%v", result)
+	}
 }
