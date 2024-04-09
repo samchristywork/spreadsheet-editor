@@ -22,7 +22,7 @@ func save(filename string) {
 			file.WriteString(content)
 
 			if column < maxColumn() {
-				file.WriteString(",")
+				file.WriteString("	")
 			}
 		}
 		file.WriteString("\n")
@@ -51,7 +51,7 @@ func loadFile() {
 
 		line = strings.TrimSuffix(line, "\n")
 
-		segments := strings.Split(line, ",")
+		segments := strings.Split(line, "	")
 		for i := 0; i < len(segments); i++ {
 			setCellContent(lineNumber, i, segments[i])
 		}

@@ -141,7 +141,7 @@ func registerGeneral(t *term.Term) {
 		}
 	})
 
-	shortcut(byte('s'), 0, 0, category, "s", "Save the csv file", func() {
+	shortcut(byte('s'), 0, 0, category, "s", "Save the tsv file", func() {
 		filename := os.Args[1]
 		save(filename)
 	})
@@ -171,11 +171,12 @@ func registerMiscellaneous(t *term.Term) {
 		pasteCell()
 	})
 
-	shortcut(byte('e'), 0, 0, category, "e", "Edit the csv file with vim", func() {
+	shortcut(byte('e'), 0, 0, category, "e", "Edit the tsv file with vim", func() {
 		if modified {
 			messageBox("Unsaved changes", "Cannot edit the file unless it is saved.")
 			nextKeyPress()
 		}
+
 		normalScreen()
 		t.Restore()
 		editFile()
