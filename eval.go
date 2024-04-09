@@ -50,6 +50,8 @@ func sum(args ...interface{}) (interface{}, error) {
 				return nil, fmt.Errorf("Error finding cell: " + cell)
 			}
 
+			value = strings.TrimSpace(value)
+
 			if isNumeric(value) {
 				f, err := strconv.ParseFloat(value, 64)
 				if err != nil {
@@ -80,6 +82,8 @@ func collectParameters(evaluableExpression *govaluate.EvaluableExpression) (map[
 		if err != nil {
 			return nil, fmt.Errorf("Error finding cell: " + v)
 		}
+
+		val = strings.TrimSpace(val)
 
 		if val == "" {
 			return nil, fmt.Errorf("Error applying function: Cell %s is empty", v)
