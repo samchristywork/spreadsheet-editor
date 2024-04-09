@@ -175,6 +175,7 @@ func registerMiscellaneous(t *term.Term) {
 		if modified {
 			messageBox("Unsaved changes", "Cannot edit the file unless it is saved.")
 			nextKeyPress()
+			return
 		}
 
 		normalScreen()
