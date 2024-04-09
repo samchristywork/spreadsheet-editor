@@ -1,0 +1,9 @@
+Name                     	 FP Cost 	 Heal Amount  	 Faith Requirement
+Urgent Heal              	 16FP    	 1.15*Scaling 	 8 Faith
+Heal                     	 32FP    	 2.3*Scaling  	 12 Faith
+Great Heal               	 45FP    	 3.64*Scaling 	 15 Faith
+Lord's Heal              	 55FP    	 4.2*Scaling  	 20 Faith
+Erdtree Heal             	 65FP    	 5.9*Scaling  	 42 Faith
+Bestial Vitality         	 18FP    	 5 HP*120 Sec 	 12 Faith
+Blessing's Boon          	 30FP    	 8 HP*90 Sec  	 24 Faith
+Blessings of the Erdtree 	 60FP    	 12 HP*90 Sec 	 38 Faith
