@@ -12,6 +12,19 @@ and a range of keyboard-driven editing commands.
 
 ## Features
 
+- Vim-style navigation with `hjkl` (single cell) and `HJKL` (five cells)
+- Cell formulas with `=` prefix (e.g. `=A1*B2`, `=sum("B1:D5")`)
+- Built-in functions: `sum()` for ranges and `strlen()` for string length
+- Formula chaining: formulas can reference other formula cells
+- Copy and paste cells with `yy` / `p`
+- Increment and decrement numeric cell values with `Ctrl-A` / `Ctrl-X`
+- Shift-arrow keys to increment a cell's value and advance the cursor
+- Color-mark cells with `c`
+- Toggle grid display with `g`
+- Equalize or reset column widths with `=` / `+`
+- Open the file in `vim` directly with `e`
+- In-editor help menu with `F1`
+
 ## Setup
 
 ## Usage
