@@ -6,6 +6,10 @@
   <img src="./assets/screenshot.png" width=500 />
 </p>
 
+Spreadsheet Editor is a lightweight, terminal-based editor for TSV
+(tab-separated values) files. It supports cell formulas, vim-style navigation,
+and a range of keyboard-driven editing commands.
+
 ## Features
 
 ## Setup
