@@ -27,7 +27,21 @@ and a range of keyboard-driven editing commands.
 
 ## Setup
 
+```
+go build
+```
+
 ## Usage
+
+```
+./spreadsheet-editor <file.tsv>
+```
+
+A sample file is provided to demonstrate the available features:
+
+```
+./spreadsheet-editor assets/budget.tsv
+```
 
 ### Keybindings
 
