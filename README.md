@@ -45,6 +45,23 @@ A sample file is provided to demonstrate the available features:
 
 ### Keybindings
 
+| Key | Action |
+|---|---|
+| `h` / `j` / `k` / `l` | Move left / down / up / right |
+| `H` / `J` / `K` / `L` | Move five cells in that direction |
+| `0` | Jump to origin |
+| `Enter` | Edit cell |
+| `Escape` / `q` | Quit |
+| `s` | Save |
+| `yy` / `p` | Copy / paste cell |
+| `Ctrl-A` / `Ctrl-X` | Increment / decrement cell value |
+| `c` | Toggle color mark on cell |
+| `g` | Toggle grid |
+| `=` | Equalize column widths |
+| `+` | Reset column widths |
+| `e` | Edit file in vim |
+| `F1` | Show help |
+
 ### Formulas
 
 ## License
