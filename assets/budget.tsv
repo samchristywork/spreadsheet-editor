@@ -1,0 +1,9 @@
+Category	Jan	Feb	Mar	Total	Monthly Avg
+Rent	1200	1200	1200	=sum("B1:D1")	=E1/3
+Groceries	320	285	340	=sum("B2:D2")	=E2/3
+Transport	80	95	70	=sum("B3:D3")	=E3/3
+Utilities	110	95	120	=sum("B4:D4")	=E4/3
+Entertainment	60	45	80	=sum("B5:D5")	=E5/3
+Total	=sum("B1:B5")	=sum("C1:C5")	=sum("D1:D5")	=sum("E1:E5")	=E6/3
+
+Name Length	=strlen(A1)	=strlen(A2)	=strlen(A3)	=strlen(A4)	=strlen(A5)
