@@ -64,6 +64,18 @@ A sample file is provided to demonstrate the available features:
 
 ### Formulas
 
+Cells starting with `=` are evaluated as expressions. Cell references like `A1`
+or `C3` are substituted with their values before evaluation. The `sum()`
+function accepts a quoted range string (e.g. `sum("B1:B5")`), and `strlen()`
+returns the character count of a cell's value.
+
+```
+=A1*B2
+=sum("B1:D1")
+=E6/3
+=strlen(A1)
+```
+
 ## License
 
 This work is licensed under the GNU General Public License version 3 (GPLv3).
