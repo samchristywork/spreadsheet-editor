@@ -97,35 +97,7 @@ func registerGeneral(t *term.Term) {
 	category := "General"
 
 	shortcut(27, 79, 80, category, "F1", "Show help", func() {
-		content := ""
-
-		keys := make([]string, 0, len(shortcuts))
-		for k := range shortcuts {
-			keys = append(keys, k)
-		}
-
-		for i := 0; i < len(keys); i++ {
-			//content += colorString(0, 0, 255)
-			//content += backgroundColorString(20, 20, 20)
-			content += keys[i] + "\n"
-			//content += "\033[0m"
-
-			for j := 0; j < len(shortcuts[keys[i]]); j++ {
-				content += colorString(0, 255, 255)
-				content += fixedWidth(shortcuts[keys[i]][j].name, 12)
-				content += "\033[0m"
-				content += shortcuts[keys[i]][j].description + "\n"
-			}
-
-			if i != len(keys)-1 {
-				content += "\n"
-			}
-		}
-
-		//for i := range shortcuts {
-		//	content += fixedWidth(shortcuts[i].name, 12) + shortcuts[i].description + "\n"
-		//}
-		messageBox("Help", content)
+		helpBox("Help")
 		nextKeyPress()
 	})
 
