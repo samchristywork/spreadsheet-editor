@@ -63,7 +63,7 @@ func loadFile() {
 func editFile() {
 	filename := os.Args[1]
 
-	cmd := exec.Command("nvim", filename)
+	cmd := exec.Command("vim", filename)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
