@@ -182,10 +182,9 @@ func registerMiscellaneous(t *term.Term) {
 
 	shortcut(byte('c'), 0, 0, category, "c", "Mark cell with color", func() {
 		c, _ := getCellColor(currentCell[0], currentCell[1])
-		if c != nil {
-			if len(c) == 3 {
-				delete(cellColorMap[currentCell[0]], currentCell[1])
-			}
+		if c != nil && len(c) == 3 {
+			delete(cellColorMap[currentCell[0]], currentCell[1])
+			return
 		}
 
 		setCellColor(currentCell[0], currentCell[1])
