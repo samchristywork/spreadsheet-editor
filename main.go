@@ -91,11 +91,11 @@ func handleIncrement(content string, row int, col int, rowDelta int, colDelta in
 			newContent += incrementToken(tokens[i], colDelta, rowDelta)
 		}
 
-		setCellContent(currentCell[0]+rowDelta, currentCell[1]+colDelta, newContent)
+		setCellContent(row+rowDelta, col+colDelta, newContent)
 		return
 	}
 
-	setCellContent(currentCell[0]+rowDelta, currentCell[1]+colDelta, content)
+	setCellContent(row+rowDelta, col+colDelta, content)
 }
 
 func handleKeypress(bytes []byte) {
