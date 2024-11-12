@@ -45,18 +45,20 @@ func loadFile() {
 	reader := bufio.NewReader(file)
 	for {
 		line, err := reader.ReadString('\n')
-		if err != nil {
-			break
-		}
 
 		line = strings.TrimSuffix(line, "\n")
 
-		segments := strings.Split(line, "	")
-		for i := 0; i < len(segments); i++ {
-			setCellContent(lineNumber, i, segments[i])
+		if len(line) > 0 {
+			segments := strings.Split(line, "	")
+			for i := 0; i < len(segments); i++ {
+				setCellContent(lineNumber, i, segments[i])
+			}
+			lineNumber++
 		}
 
-		lineNumber++
+		if err != nil {
+			break
+		}
 	}
 }
 
