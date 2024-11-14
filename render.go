@@ -11,13 +11,13 @@ func renderHeadings(x int, y int) {
 	xoff := 3
 	for i := 0; xoff < width; i++ {
 		setCursorPosition(x+xoff, y)
-		columnWidth := getColumnWidth(i)
 
-		i := i + scrollOffset[0]
+		col := i + scrollOffset[0]
+		columnWidth := getColumnWidth(col)
 
 		color(100, 100, 200)
 		invert()
-		fmt.Printf("%s", fixedWidth(getColumnName(i), columnWidth))
+		fmt.Printf("%s", fixedWidth(getColumnName(col), columnWidth))
 		resetColor()
 
 		xoff += columnWidth
@@ -107,7 +107,7 @@ func renderRow(row int, width int) {
 	for column := 0; xoff < width; column++ {
 		setCursorPosition(xoff, row+4)
 
-		columnWidth := getColumnWidth(column)
+		columnWidth := getColumnWidth(column + scrollOffset[0])
 
 		if xoff+columnWidth > width {
 			columnWidth := width - xoff
