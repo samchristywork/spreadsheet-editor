@@ -163,21 +163,25 @@ func registerMiscellaneous(t *term.Term) {
 	shortcut(1, 0, 0, category, "Ctrl-A", "Increment cell content", func() {
 		content, _ := getCellContent(currentCell[0], currentCell[1])
 
-		contentInt, _ := strconv.Atoi(content)
+		contentInt, err := strconv.Atoi(content)
+		if err != nil {
+			return
+		}
 
 		contentInt++
-		content = strconv.Itoa(contentInt)
-		setCellContent(currentCell[0], currentCell[1], content)
+		setCellContent(currentCell[0], currentCell[1], strconv.Itoa(contentInt))
 	})
 
 	shortcut(24, 0, 0, category, "Ctrl-X", "Decrement cell content", func() {
 		content, _ := getCellContent(currentCell[0], currentCell[1])
 
-		contentInt, _ := strconv.Atoi(content)
+		contentInt, err := strconv.Atoi(content)
+		if err != nil {
+			return
+		}
 
 		contentInt--
-		content = strconv.Itoa(contentInt)
-		setCellContent(currentCell[0], currentCell[1], content)
+		setCellContent(currentCell[0], currentCell[1], strconv.Itoa(contentInt))
 	})
 
 	shortcut(byte('c'), 0, 0, category, "c", "Mark cell with color", func() {
