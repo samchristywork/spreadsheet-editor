@@ -26,13 +26,21 @@ func getCellRange(col1 int, row1 int, col2 int, row2 int) ([]string, error) {
 }
 
 func strlen(args ...interface{}) (interface{}, error) {
-	length := len(args[0].(string))
-	return (float64)(length), nil
+	s, ok := args[0].(string)
+	if !ok {
+		return nil, fmt.Errorf("Error applying strlen: argument must be a string")
+	}
+	return (float64)(len(s)), nil
 }
 
 func sum(args ...interface{}) (interface{}, error) {
 	if len(args) == 2 {
-		return args[0].(float64) + args[1].(float64), nil
+		a, aok := args[0].(float64)
+		b, bok := args[1].(float64)
+		if !aok || !bok {
+			return nil, fmt.Errorf("Error applying sum: arguments must be numeric")
+		}
+		return a + b, nil
 	}
 
 	if len(args) == 1 {
