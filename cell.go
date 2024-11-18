@@ -66,7 +66,7 @@ func editCell(t *term.Term) *string {
 		}
 
 		cursorOffset = max(cursorOffset, 0)
-		cursorOffset = min(cursorOffset, len(entry)+0)
+		cursorOffset = min(cursorOffset, len(entry))
 	}
 
 	setCursorPosition(1, 2)
