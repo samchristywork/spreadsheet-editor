@@ -55,7 +55,7 @@ func sum(args ...interface{}) (interface{}, error) {
 		for _, cell := range cells {
 			value, err := getCellValue(row(cell), column(cell))
 			if err != nil {
-				return nil, fmt.Errorf("Error finding cell: " + cell)
+				return nil, fmt.Errorf("Error finding cell: %s", cell)
 			}
 
 			value = strings.TrimSpace(value)
@@ -88,7 +88,7 @@ func collectParameters(evaluableExpression *govaluate.EvaluableExpression) (map[
 
 		val, err := getCellValue(row(v), column(v))
 		if err != nil {
-			return nil, fmt.Errorf("Error finding cell: " + v)
+			return nil, fmt.Errorf("Error finding cell: %s", v)
 		}
 
 		val = strings.TrimSpace(val)
