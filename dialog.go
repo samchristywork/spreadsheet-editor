@@ -135,7 +135,7 @@ func promptBox(title string, message string) bool {
 	for {
 		bytes, err := nextKeyPress()
 		if err != nil {
-			panic(err)
+			return false
 		}
 
 		if keyPressed('y', 0, 0, bytes) {
