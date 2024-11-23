@@ -110,11 +110,9 @@ func renderRow(row int, width int) {
 		columnWidth := getColumnWidth(column + scrollOffset[0])
 
 		if xoff+columnWidth > width {
-			columnWidth := width - xoff
-			renderCell(row, column, columnWidth)
-		} else {
-			renderCell(row, column, columnWidth)
+			columnWidth = width - xoff
 		}
+		renderCell(row, column, columnWidth)
 
 		xoff += columnWidth
 	}
