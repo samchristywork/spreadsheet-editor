@@ -44,7 +44,14 @@ func sum(args ...interface{}) (interface{}, error) {
 	}
 
 	if len(args) == 1 {
-		s := strings.Split(args[0].(string), ":")
+		rangeStr, ok := args[0].(string)
+		if !ok {
+			return nil, fmt.Errorf("Error applying sum: argument must be a string range")
+		}
+		s := strings.Split(rangeStr, ":")
+		if len(s) != 2 {
+			return nil, fmt.Errorf("Error applying sum: argument must be a range in the form A0:B0")
+		}
 		sum := 0.0
 
 		cells, err := getCellRange(column(s[0]), row(s[0]), column(s[1]), row(s[1]))
