@@ -17,7 +17,11 @@ func renderHeadings(x int, y int) {
 
 		color(100, 100, 200)
 		invert()
-		fmt.Printf("%s", fixedWidth(getColumnName(col), columnWidth))
+		if col < 0 {
+			fmt.Printf("%s", fixedWidth("-----", columnWidth))
+		} else {
+			fmt.Printf("%s", fixedWidth(getColumnName(col), columnWidth))
+		}
 		resetColor()
 
 		xoff += columnWidth
@@ -26,11 +30,15 @@ func renderHeadings(x int, y int) {
 	// Render left headings
 	for i := 0; i < height; i++ {
 		setCursorPosition(x, y+i+1)
-		i := i + scrollOffset[1]
+		row := i + scrollOffset[1]
 
 		color(100, 100, 200)
 		invert()
-		fmt.Printf("%s", fixedWidth(fmt.Sprintf("%d", i), 3))
+		if row < 0 {
+			fmt.Printf("%s", fixedWidth("---", 3))
+		} else {
+			fmt.Printf("%s", fixedWidth(fmt.Sprintf("%d", row), 3))
+		}
 		resetColor()
 	}
 }
