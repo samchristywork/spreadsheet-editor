@@ -142,6 +142,22 @@ func TestIsCellIdentifier(t *testing.T) {
 	assertEqual(t, isCellIdentifier(""), false)
 }
 
+// Tests that handleIncrement uses the row/col parameters rather than currentCell.
+func TestHandleIncrementUsesParams(t *testing.T) {
+	setCellContent(0, 0, "=A0+B0")
+	currentCell[0] = 5
+	currentCell[1] = 5
+
+	handleIncrement("=A0+B0", 0, 0, 1, 0)
+
+	content, _ := getCellContent(1, 0)
+	assertEqual(t, content, "=A1+B1")
+
+	// Should NOT have written to currentCell + delta
+	content, _ = getCellContent(6, 5)
+	assertEqual(t, content, "")
+}
+
 func assertRange(t *testing.T, a []string, b []string) {
 	if len(a) != len(b) {
 		t.Errorf("len(a) = %d != len(b) = %d", len(a), len(b))
