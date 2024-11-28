@@ -158,6 +158,12 @@ func TestHandleIncrementUsesParams(t *testing.T) {
 	assertEqual(t, content, "")
 }
 
+func TestHandleIncrementPlainValue(t *testing.T) {
+	handleIncrement("hello", 0, 0, 0, 1)
+	content, _ := getCellContent(0, 1)
+	assertEqual(t, content, "hello")
+}
+
 func assertRange(t *testing.T, a []string, b []string) {
 	if len(a) != len(b) {
 		t.Errorf("len(a) = %d != len(b) = %d", len(a), len(b))
