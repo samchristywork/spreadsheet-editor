@@ -164,6 +164,13 @@ func TestHandleIncrementPlainValue(t *testing.T) {
 	assertEqual(t, content, "hello")
 }
 
+func TestStrlenWithNumericCell(t *testing.T) {
+	// A0 is numeric, so collectParameters stores it as float64.
+	// strlen should return an error rather than panic.
+	setCellContent(0, 0, "42")
+	assertEqual(t, eval("strlen(A0)"), "Error applying strlen: argument must be a string")
+}
+
 func assertRange(t *testing.T, a []string, b []string) {
 	if len(a) != len(b) {
 		t.Errorf("len(a) = %d != len(b) = %d", len(a), len(b))
