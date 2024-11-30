@@ -171,6 +171,18 @@ func TestStrlenWithNumericCell(t *testing.T) {
 	assertEqual(t, eval("strlen(A0)"), "Error applying strlen: argument must be a string")
 }
 
+func TestSumMalformedRange(t *testing.T) {
+	// sum with a single argument that has no colon should return an error, not panic.
+	assertEqual(t, eval("sum(\"A0\")"), "Error applying sum: argument must be a range in the form A0:B0")
+}
+
+func TestSumNonNumericArgs(t *testing.T) {
+	// sum(a, b) where arguments are not float64 should return an error.
+	setCellContent(0, 0, "hello")
+	setCellContent(0, 1, "world")
+	assertEqual(t, eval("sum(A0,B0)"), "Error applying sum: arguments must be numeric")
+}
+
 func assertRange(t *testing.T, a []string, b []string) {
 	if len(a) != len(b) {
 		t.Errorf("len(a) = %d != len(b) = %d", len(a), len(b))
