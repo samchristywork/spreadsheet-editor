@@ -183,6 +183,14 @@ func TestSumNonNumericArgs(t *testing.T) {
 	assertEqual(t, eval("sum(A0,B0)"), "Error applying sum: arguments must be numeric")
 }
 
+func TestRange2D(t *testing.T) {
+	// A 2D range (different row and column) should return an error.
+	_, err := getCellRange(0, 0, 1, 1)
+	if err == nil {
+		t.Errorf("expected error for 2D range, got nil")
+	}
+}
+
 func assertRange(t *testing.T, a []string, b []string) {
 	if len(a) != len(b) {
 		t.Errorf("len(a) = %d != len(b) = %d", len(a), len(b))
